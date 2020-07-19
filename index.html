@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#compile").click(function() {
+                    
+                    var model = stanc("test_model",$("#model").val());
+                    
+                    if(model.errors) {
+                        $("#error").html(model.errors[1]);
+                    } else {
+                        $("#result").html(model.result);
+                    }    
+        
+                });
+            });
+        </script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false"></textarea>
+        <button id="compile">Compile</button>
+        <div id = "error"></div>
+        <div id = "result" class="language-cpp"></div>
+
+    </body>
+</html>
