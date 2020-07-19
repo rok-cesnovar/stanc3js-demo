@@ -10,8 +10,10 @@
                     
                     if(model.errors) {
                         $("#error").html(model.errors[1]);
+                        $("#result").html("");
                     } else {
                         $("#result").html(model.result);
+                        $("#error").html("");
                     }    
         
                 });
