@@ -2,6 +2,7 @@
     <head>
         <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="prism.js"></script>
         <script>
             $(document).ready(function(){
                 $("#compile").click(function() {
@@ -12,7 +13,7 @@
                         $("#error").html(model.errors[1]);
                         $("#result").html("");
                     } else {
-                        $("#result").html(model.result);
+                        $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
                         $("#error").html("");
                     }    
         
@@ -20,12 +21,21 @@
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="prism.css" rel="stylesheet" />
     </head>
     <body>
-        <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false"></textarea>
+<textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
+parameters {
+    real y;
+}
+model {
+    y ~ std_normal();
+}
+</textarea>
         <button id="compile">Compile</button>
-        <div id = "error"></div>
-        <div id = "result" class="language-cpp"></div>
-
+        <div id = "error" class="error-box"></div>
+        <pre><code id = "result" class="language-cpp">int main() {
+            return 0;
+        }</code></pre>
     </body>
 </html>
