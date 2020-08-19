@@ -17,6 +17,8 @@
                         $("#error").html("");
                     }
                 });
+                var model = stanc("test_model",$("#model").val());
+                $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">
