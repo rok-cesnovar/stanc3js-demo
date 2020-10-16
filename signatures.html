@@ -54,9 +54,19 @@
                             return 0;
                         });
                         var functions = $("#functions")
+                        var not_list = {
+                            "assign_add": 1,
+                            "assign_divide": 1,
+                            "assign_elt_divide": 1,
+                            "assign_elt_times": 1,
+                            "assign_multiply": 1,
+                            "assign_substract": 1
+                        }
                         for (var i=0; i<keys.length; i++) {
                             let f = keys[i];
-                            functions.append($("<option />").val(f).text(f));
+                            if (!(f in not_list)) {
+                                functions.append($("<option />").val(f).text(f));
+                            }                            
                         }
                         $("#list").html(functions_sigs[keys[0]])
                     }
