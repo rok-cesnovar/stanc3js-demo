@@ -22,3 +22,24 @@ button {
     box-sizing: border-box;
     resize: vertical;
 }
+
+#functions {
+    cursor: default;
+    font-size: 15px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #b2001d;
+    background-color: white;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 400px;
+    height: 40px;
+    padding-left: 5px;
+    font-size: 18px;
+}
+
+#list, #list-title {
+    margin-left: 15px;
+    margin-top: 20px;
+}

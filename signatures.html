@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="prism.js"></script>
+        <script>
+            function sortOnKeys(dict) {
+
+                var sorted = [];
+                for(var key in dict) {
+                    sorted[sorted.length] = key;
+                }
+                sorted.sort();
+
+                var tempDict = {};
+                for(var i = 0; i < sorted.length; i++) {
+                    tempDict[sorted[i]] = dict[sorted[i]];
+                }
+
+                return tempDict;
+            }
+
+                
+            var sigs;
+            var functions_sigs = {};
+            $(document).ready(function(){                
+                var request = new XMLHttpRequest();
+                request.open('GET', 'https://raw.githubusercontent.com/stan-dev/stanc3/master/test/integration/signatures/stan_math_sigs.expected', true);
+                request.send(null);
+                request.onreadystatechange = function () {
+                    if (request.readyState === 4 && request.status === 200) {
+                        var type = request.getResponseHeader('Content-Type');
+                        sigs = request.responseText;
+                        sigs = sigs.match(/[^\r\n]+/g);
+                        var i = 0;
+                        next_sig = ""
+                        for (i in sigs) {
+                            next_sig += sigs[i]
+                            if (next_sig.endsWith(")")) {
+                                let fun = next_sig.split("(")[0].split(" ")[1]
+                                if (functions_sigs[fun]) {
+                                    functions_sigs[fun] += "<br/>" + next_sig
+                                } else {
+                                    functions_sigs[fun] = next_sig
+                                }                                
+                                next_sig = ""
+                            }
+                            i+=1
+                        }
+                        var keys = Object.keys(functions_sigs);
+                        keys = keys.sort(function(a, b) {
+                            if (a.toLowerCase() < b.toLowerCase()) return -1;
+                            if (a.toLowerCase() > b.toLowerCase()) return 1;
+                            return 0;
+                        });
+                        var functions = $("#functions")
+                        for (var i=0; i<keys.length; i++) {
+                            let f = keys[i];
+                            functions.append($("<option />").val(f).text(f));
+                        }
+                        $("#list").html(functions_sigs[keys[0]])
+                    }
+                }
+                $("#functions").change(function() {
+                    $("#list").html(functions_sigs[$("#functions").val()])
+                })
+            });
+        </script>
+        <link rel="stylesheet" type="text/css" href="style.css?ver=1">
+
+        <link href="prism.css" rel="stylesheet" />
+    </head>
+    <body>
+
+        <select id="functions"></select>
+        <div id = "list-title">Supported signatures:</div>
+        <div id = "list"></div>
+        
+    </body>
+</html>
