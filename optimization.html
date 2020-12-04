@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="prism.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#compile").click(function() {
+                    
+                    var model_opt = stanc("test_model",$("#model").val(), "O");
+                    
+                    if(model_opt.errors) {
+                        $("#error").html(model_opt.errors[1]);
+                        $("#result1").html("");
+                    } else {
+                        $("#result1").html(Prism.highlight(model_opt.result, Prism.languages.cpp, 'cpp'));
+                        $("#error").html("");
+                    }
+
+                    var model_no_opt = stanc("test_model",$("#model").val());
+                    
+                    if(model_no_opt.errors) {
+                        $("#error").html(model_no_opt.errors[1]);
+                        $("#result2").html("");
+                    } else {
+                        $("#result2").html(Prism.highlight(model_no_opt.result, Prism.languages.cpp, 'cpp'));
+                        $("#error").html("");
+                    }
+                });
+                var model_opt = stanc("test_model",$("#model").val(), "O");
+                    
+                if(model_opt.errors) {
+                    $("#error").html(model_opt.errors[1]);
+                    $("#result1").html("");
+                } else {
+                    $("#result1").html(Prism.highlight(model_opt.result, Prism.languages.cpp, 'cpp'));
+                    $("#error").html("");
+                }
+
+                var model_no_opt = stanc("test_model",$("#model").val());
+                
+                if(model_no_opt.errors) {
+                    $("#error").html(model_no_opt.errors[1]);
+                    $("#result2").html("");
+                } else {
+                    $("#result2").html(Prism.highlight(model_no_opt.result, Prism.languages.cpp, 'cpp'));
+                    $("#error").html("");
+                }
+            });
+        </script>
+        <link rel="stylesheet" type="text/css" href="style.css?ver=1">
+        <link href="prism.css" rel="stylesheet" />
+    </head>
+    <body>
+    <a href="index.html">Print C++</a>
+    <a href="pedantic.html">Pedantic check</a>
+    <a href="signatures.html">Supported signatures</a>
+    <a class="selected" href="optimization.html">Optimization diff</a>
+    <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
+functions{
+    real foo(data real[,] x,
+    int[] y,
+    vector beta,
+    int N, 
+    int K) {
+        matrix[N,K] mx = to_matrix(x); 
+        return bernoulli_logit_lpmf(y | mx * beta);
+    }
+}
+parameters {
+    real y;
+}
+model {
+    y ~ std_normal();
+}
+    </textarea>
+        <button id="compile">Compile</button>
+        <div id = "error" class="error-box"></div>
+        <section class="container short">
+            <div class="one short">Unoptimized code</div>
+            <div class="two short">Optimized code</div>   
+        </section>
+        <section class="container">
+            <div class="one"><pre><code id = "result2" class="language-cpp1"></code></pre></div>
+            <div class="two"><pre><code id = "result1" class="language-cpp2"></code></pre></div>            
+        </section>
+    </body>
+</html>

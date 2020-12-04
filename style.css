@@ -5,6 +5,7 @@
     border-radius: 4px;
     box-sizing: border-box;
     resize: vertical;
+    margin-top: 5px;
 }
 
 button {
@@ -22,7 +23,9 @@ button {
     box-sizing: border-box;
     resize: vertical;
 }
-
+pre {
+    border: 5px black solid;
+}
 #functions {
     cursor: default;
     font-size: 15px;
@@ -42,4 +45,25 @@ button {
 #list, #list-title {
     margin-left: 15px;
     margin-top: 20px;
+}
+.container {
+  width: 95%;
+  height: 200px;
+  margin: auto;
+  padding: 10px;
+}
+
+.one {
+  width: 50%;
+  height: 200px;
+  float: left;
+}
+
+.two {
+  margin-left: 50%;
+  height: 200px;
+}
+
+.short {
+    height:10px;
 }
