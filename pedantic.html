@@ -25,16 +25,26 @@
                         $("#error").html(pedantic_err.replace("\n", "<br/><br/>"));
                     }
                 });
+                var model = stanc("test_model",$("#model").val(), ["warn-pedantic"]);
+                    
+                if(model.errors) {
+                    $("#error").html(model.errors[1]);
+                    $("#result").html("");
+                } else {
+                    $("#error").html(pedantic_err.replace("\n", "<br/><br/>"));
+                }
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">
         <link href="prism.css" rel="stylesheet" />
     </head>
     <body>
-    <a href="index.html">Print C++</a>
-    <a class="selected" href="pedantic.html">Pedantic check</a>
-    <a href="signatures.html">Supported signatures</a>
-    <a href="optimization.html">Optimization diff</a>
+        <a class="selected" href="index.html">Print C++</a>
+        <a href="pedantic.html">Pedantic check</a>
+        <a href="signatures.html">Supported signatures</a>
+        <a href="optimization.html">Optimization diff</a>
+        <a href="autoformat.html">Auto format</a>
+        <a href="canonicalizer.html">Canonicalizer</a>
     <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
 parameters {
     real y;
@@ -43,7 +53,7 @@ model {
     y ~ normal(0,1000);
 }
     </textarea>
-        <button id="compile">Compile</button>
+        <button id="compile">Pedantic check</button>
         <div id = "error" class="error-box"></div>
     </body>
 </html>

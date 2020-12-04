@@ -7,7 +7,7 @@
             $(document).ready(function(){
                 $("#compile").click(function() {
                     
-                    var model = stanc("test_model",$("#model").val());
+                    var model = stanc("test_model",$("#model").val(), ["auto-format"]);
                     
                     if(model.errors) {
                         $("#error").html(model.errors[1]);
@@ -17,29 +17,37 @@
                         $("#error").html("");
                     }
                 });
-                var model = stanc("test_model",$("#model").val());
-                $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
+                var model = stanc("test_model",$("#model").val(), ["auto-format"]);
+                    
+                    if(model.errors) {
+                        $("#error").html(model.errors[1]);
+                        $("#result").html("");
+                    } else {
+                        $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
+                        $("#error").html("");
+                    }
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">
         <link href="prism.css" rel="stylesheet" />
     </head>
     <body>
-        <a class="selected" href="index.html">Print C++</a>
-        <a href="pedantic.html">Pedantic check</a>
-        <a href="signatures.html">Supported signatures</a>
-        <a href="optimization.html">Optimization diff</a>
-        <a href="autoformat.html">Auto format</a>
-        <a href="canonicalizer.html">Canonicalizer</a>
+    <a class="selected" href="index.html">Print C++</a>
+    <a href="pedantic.html">Pedantic check</a>
+    <a href="signatures.html">Supported signatures</a>
+    <a href="optimization.html">Optimization diff</a>
+    <a href="autoformat.html">Auto format</a>
+    <a href="canonicalizer.html">Canonicalizer</a>
     <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
 parameters {
-    real y;
+real y;
 }
 model {
-    y ~ std_normal();
+y
+ ~ std_normal();
 }
     </textarea>
-        <button id="compile">Compile</button>
+        <button id="compile">Auto-format</button>
         <div id = "error" class="error-box"></div>
         <pre><code id = "result" class="language-cpp"></code></pre>
     </body>

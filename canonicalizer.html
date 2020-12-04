@@ -7,7 +7,7 @@
             $(document).ready(function(){
                 $("#compile").click(function() {
                     
-                    var model = stanc("test_model",$("#model").val());
+                    var model = stanc("test_model",$("#model").val(), ["print-canonical"]);
                     
                     if(model.errors) {
                         $("#error").html(model.errors[1]);
@@ -17,8 +17,15 @@
                         $("#error").html("");
                     }
                 });
-                var model = stanc("test_model",$("#model").val());
-                $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
+                var model = stanc("test_model",$("#model").val(), ["print-canonical"]);
+                    
+                    if(model.errors) {
+                        $("#error").html(model.errors[1]);
+                        $("#result").html("");
+                    } else {
+                        $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
+                        $("#error").html("");
+                    }
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">
@@ -31,15 +38,16 @@
         <a href="optimization.html">Optimization diff</a>
         <a href="autoformat.html">Auto format</a>
         <a href="canonicalizer.html">Canonicalizer</a>
-    <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
+
+<textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
 parameters {
-    real y;
+    real x;
 }
 model {
-    y ~ std_normal();
+    target += normal_log(x, 0, 1);
 }
-    </textarea>
-        <button id="compile">Compile</button>
+</textarea>
+        <button id="compile">Print canonical</button>
         <div id = "error" class="error-box"></div>
         <pre><code id = "result" class="language-cpp"></code></pre>
     </body>

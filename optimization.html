@@ -52,10 +52,12 @@
         <link href="prism.css" rel="stylesheet" />
     </head>
     <body>
-    <a href="index.html">Print C++</a>
-    <a href="pedantic.html">Pedantic check</a>
-    <a href="signatures.html">Supported signatures</a>
-    <a class="selected" href="optimization.html">Optimization diff</a>
+        <a class="selected" href="index.html">Print C++</a>
+        <a href="pedantic.html">Pedantic check</a>
+        <a href="signatures.html">Supported signatures</a>
+        <a href="optimization.html">Optimization diff</a>
+        <a href="autoformat.html">Auto format</a>
+        <a href="canonicalizer.html">Canonicalizer</a>
     <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
 functions{
     real foo(data real[,] x,
@@ -74,7 +76,7 @@ model {
     y ~ std_normal();
 }
     </textarea>
-        <button id="compile">Compile</button>
+        <button id="compile">Compile with optimizations</button>
         <div id = "error" class="error-box"></div>
         <section class="container short">
             <div class="one short">Unoptimized code</div>
