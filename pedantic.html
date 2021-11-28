@@ -10,23 +10,7 @@
         <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
         <script src="prism.js"></script>
         <script>
-            
-            
-            $(document).ready(function(){
-                $("#compile").click(function() {
-                    var model = stanc("test_model",$("#model").val(), ["warn-pedantic", "filename-in-msg=demo-model"]);
-                    if(model.errors) {
-                        $("#error").html(model.errors[1]);
-                        $("#result").html("");
-                    } else if (model.warnings) {
-                        var content = ""
-                        for (var i=0; i<model.warnings.length; i++) {
-                            content += model.warnings[i].replace("\n", "")+"<br/><br/>"
-                        }
-                        $("#error").html(content);
-                    }
-                });
-                
+            function pedantic_check() {
                 var model = stanc("test_model",$("#model").val(), ["warn-pedantic", "filename-in-msg=demo-model"]);
                 if(model.errors) {
                     $("#error").html(model.errors[1]);
@@ -38,6 +22,13 @@
                     }
                     $("#error").html(content);
                 }
+            }
+            
+            $(document).ready(function(){
+                $("#compile").click(function() {
+                    pedantic_check();
+                });
+                pedantic_check();
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">

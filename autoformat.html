@@ -4,28 +4,22 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="prism.js"></script>
         <script>
-            $(document).ready(function(){
-                $("#compile").click(function() {
-                    
-                    var model = stanc("test_model",$("#model").val(), ["auto-format"]);
-                    
-                    if(model.errors) {
-                        $("#error").html(model.errors[1]);
-                        $("#result").html("");
-                    } else {
-                        $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
-                        $("#error").html("");
-                    }
-                });
+            function auto_format() {
                 var model = stanc("test_model",$("#model").val(), ["auto-format"]);
                     
-                    if(model.errors) {
-                        $("#error").html(model.errors[1]);
-                        $("#result").html("");
-                    } else {
-                        $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
-                        $("#error").html("");
-                    }
+                if(model.errors) {
+                    $("#error").html(model.errors[1]);
+                    $("#result").html("");
+                } else {
+                    $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
+                    $("#error").html("");
+                }
+            }
+            $(document).ready(function(){
+                $("#compile").click(function() {
+                    auto_format();                    
+                });
+                auto_format();
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">

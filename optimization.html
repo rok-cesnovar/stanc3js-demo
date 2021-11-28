@@ -4,29 +4,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="prism.js"></script>
         <script>
-            $(document).ready(function(){
-                $("#compile").click(function() {
-                    
-                    var model_opt = stanc("test_model",$("#model").val(), "O");
-                    
-                    if(model_opt.errors) {
-                        $("#error").html(model_opt.errors[1]);
-                        $("#result1").html("");
-                    } else {
-                        $("#result1").html(Prism.highlight(model_opt.result, Prism.languages.cpp, 'cpp'));
-                        $("#error").html("");
-                    }
 
-                    var model_no_opt = stanc("test_model",$("#model").val());
-                    
-                    if(model_no_opt.errors) {
-                        $("#error").html(model_no_opt.errors[1]);
-                        $("#result2").html("");
-                    } else {
-                        $("#result2").html(Prism.highlight(model_no_opt.result, Prism.languages.cpp, 'cpp'));
-                        $("#error").html("");
-                    }
-                });
+            function optimization() {
                 var model_opt = stanc("test_model",$("#model").val(), "O");
                     
                 if(model_opt.errors) {
@@ -46,6 +25,12 @@
                     $("#result2").html(Prism.highlight(model_no_opt.result, Prism.languages.cpp, 'cpp'));
                     $("#error").html("");
                 }
+            }
+            $(document).ready(function(){
+                $("#compile").click(function() {
+                    optimization();                    
+                });
+                optimization();
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">
