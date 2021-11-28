@@ -39,8 +39,16 @@
     <a href="autoformat.html">Auto format</a>
     <a href="canonicalizer.html">Canonicalizer</a>
     <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
-parameters {
-real y;
+transformed data{
+    real m = 0;
+    for(i in 1:5) 
+    {
+m += 1.1* i;
+    }
+}
+        parameters {
+real
+y;  // comment
 }
 model {
 y

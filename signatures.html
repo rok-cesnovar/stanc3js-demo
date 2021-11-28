@@ -36,8 +36,8 @@
                         next_sig = ""
                         for (i in sigs) {
                             next_sig += sigs[i]
-                            if (next_sig.endsWith(")")) {
-                                let fun = next_sig.split("(")[0].split(" ")[1]
+                            if (next_sig.includes("=>") && !next_sig.endsWith(",")) {
+                                let fun = next_sig.split("(")[0]
                                 if (functions_sigs[fun]) {
                                     functions_sigs[fun] += "<br/>" + next_sig
                                 } else {
@@ -54,19 +54,9 @@
                             return 0;
                         });
                         var functions = $("#functions")
-                        var not_list = {
-                            "assign_add": 1,
-                            "assign_divide": 1,
-                            "assign_elt_divide": 1,
-                            "assign_elt_times": 1,
-                            "assign_multiply": 1,
-                            "assign_subtract": 1
-                        }
                         for (var i=0; i<keys.length; i++) {
                             let f = keys[i];
-                            if (!(f in not_list)) {
-                                functions.append($("<option />").val(f).text(f));
-                            }                            
+                            functions.append($("<option />").val(f).text(f));
                         }
                         $("#list").html(functions_sigs[keys[0]])
                     }
