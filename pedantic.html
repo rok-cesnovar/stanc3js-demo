@@ -2,10 +2,10 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            let pedantic_err = "";
-            window.console.error = function(msg) {
-                pedantic_err = msg;
-            };
+            // let pedantic_err = "";
+            // window.console.error = function(msg) {
+            //     pedantic_err = msg;
+            // };
         </script>
         <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
         <script src="prism.js"></script>
@@ -16,22 +16,29 @@
                 
                 $("#compile").click(function() {
                     
-                    var model = stanc("test_model",$("#model").val(), ["warn-pedantic"]);
+                    
                     
                     if(model.errors) {
                         $("#error").html(model.errors[1]);
-                        $("#result").html("");
-                    } else {
-                        $("#error").html(pedantic_err.replace("\n", "<br/><br/>"));
+                    } else if (model.warnings) {
+                        var content = ""
+                        for (var i=0; i<model.warnings.length; i++) {
+                            content += model.warnings[i].replace("\n", "")
+                        }
+                        $("#error").html(content);
                     }
                 });
-                var model = stanc("test_model",$("#model").val(), ["warn-pedantic"]);
-                    
+                
+                var model = stanc("test_model",$("#model").val(), ["warn-pedantic", "filename-in-msg=demo-model"]);
                 if(model.errors) {
                     $("#error").html(model.errors[1]);
                     $("#result").html("");
-                } else {
-                    $("#error").html(pedantic_err.replace("\n", "<br/><br/>"));
+                } else if (model.warnings) {
+                    var content = ""
+                    for (var i=0; i<model.warnings.length; i++) {
+                        content += model.warnings[i].replace("\n", "")+"<br/><br/>"
+                    }
+                    $("#error").html(content);
                 }
             });
         </script>
@@ -45,12 +52,13 @@
         <div class="page-links"><a href="optimization.html">Optimization diff</a></div>
         <div class="page-links"><a href="autoformat.html">Auto format</a></div>
         <div class="page-links"><a href="canonicalizer.html">Canonicalizer</a></div>
-    <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
+<textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
 parameters {
     real y;
 }
 model {
-    y ~ normal(0,100000);
+    y ~ normal(0,1000);
+    y ~ normal(0,10);
 }</textarea>
         <button id="compile">Pedantic check</button>
         <div id = "error" class="error-box"></div>
