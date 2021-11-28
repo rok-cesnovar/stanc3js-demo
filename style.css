@@ -70,3 +70,30 @@ pre {
 .short {
     height:10px;
 }
+
+.page-links {
+    width: 172px;
+    float: left;
+    height: 25px;
+    text-align: center;
+    border-width: 1px;
+    border-color: #b2001d;
+    border-style: solid;
+    margin-right: 5px;
+    padding-top: 5px;
+    border-radius: 6px;
+    background-color: #b2001d;
+}
+
+.page-links a {
+    color: white;
+    text-decoration: unset;
+}
+
+.selected-link {
+    background-color: white;
+}
+
+.selected-link a {
+    color: #b2001d;
+}
