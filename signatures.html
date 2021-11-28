@@ -4,6 +4,19 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="prism.js"></script>
         <script>
+            function GetURLParameter(sParam)
+            {
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) 
+                {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) 
+                    {
+                        return sParameterName[1];
+                    }
+                }
+            }
             function sortOnKeys(dict) {
 
                 var sorted = [];
@@ -19,8 +32,6 @@
 
                 return tempDict;
             }
-
-                
             var sigs;
             var functions_sigs = {};
             $(document).ready(function(){                
@@ -47,6 +58,19 @@
                             }
                             i+=1
                         }
+                        // add variadic signatures
+                        functions_sigs["reduce_sum"] = "reduce_sum((array[] T, int, int, ... )  => real, array[] T, int, ... ) => real"
+                        functions_sigs["reduce_sum_static"] = "reduce_sum((array[] T, int, int, ... )  => real, array[] T, int, ... ) => real"
+                        functions_sigs["ode_rk45"] = "ode_rk45((real, vector, ...) => vector, vector, real, array[] real, ... ) => array[] vector"
+                        functions_sigs["ode_ckrk"] = "ode_ckrk((real, vector, ...) => vector, vector, real, array[] real, ... ) => array[] vector"
+                        functions_sigs["ode_adams"] = "ode_adams((real, vector, ...) => vector, vector, real, array[] real, ... ) => array[] vector"
+                        functions_sigs["ode_bdf"] = "ode_bdf((real, vector, ...) => vector, vector, real, array[] real, ... ) => array[] vector"
+                        functions_sigs["ode_rk45_tol"] = "ode_rk45_tol((real, vector, ...) => vector, vector, real, array[] real, data real rel_tol, data real abs_tol, int max_num_steps, ... ) => array[] vector"
+                        functions_sigs["ode_ckrk_tol"] = "ode_ckrk_tol((real, vector, ...) => vector, vector, real, array[] real, data real rel_tol, data real abs_tol, int max_num_steps, ... ) => array[] vector"
+                        functions_sigs["ode_adams_tol"] = "ode_adams_tol((real, vector, ...) => vector, vector, real, array[] real, data real rel_tol, data real abs_tol, int max_num_steps, ... ) => array[] vector"
+                        functions_sigs["ode_bdf_tol"] = "ode_bdf_tol((real, vector, ...) => vector, vector, real, array[] real, data real rel_tol, data real abs_tol, int max_num_steps, ... ) => array[] vector"
+                        functions_sigs["ode_adjoint_tol_ctl"] = "ode_adjoint_tol_ctl((real, vector, ...) => vector, vector, real, array[] real, data real, data vector, data real, data vector, int, int, int, int, int, ...) => array[] vector"
+
                         var keys = Object.keys(functions_sigs);
                         keys = keys.sort(function(a, b) {
                             if (a.toLowerCase() < b.toLowerCase()) return -1;
@@ -54,11 +78,21 @@
                             return 0;
                         });
                         var functions = $("#functions")
+                        var selected = 0;
                         for (var i=0; i<keys.length; i++) {
                             let f = keys[i];
-                            functions.append($("<option />").val(f).text(f));
+                            if (GetURLParameter("function") == f) {
+                                functions.append($("<option />").val(f).text(f).attr('selected','selected'));
+                                $("#list").html(functions_sigs[keys[i]])
+                                selected = 1
+                            } else {
+                                functions.append($("<option />").val(f).text(f));
+                            }
                         }
-                        $("#list").html(functions_sigs[keys[0]])
+                        if (selected == 0) {
+                            $("#list").html(functions_sigs[keys[0]])                            
+                        }
+                        
                     }
                 }
                 $("#functions").change(function() {
@@ -69,6 +103,7 @@
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">
 
         <link href="prism.css" rel="stylesheet" />
+        <title>Stan supported functions and signatures</title>
     </head>
     <body>
         <a class="selected" href="index.html">Print C++</a>
