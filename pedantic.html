@@ -13,17 +13,15 @@
             
             
             $(document).ready(function(){
-                
                 $("#compile").click(function() {
-                    
-                    
-                    
+                    var model = stanc("test_model",$("#model").val(), ["warn-pedantic", "filename-in-msg=demo-model"]);
                     if(model.errors) {
                         $("#error").html(model.errors[1]);
+                        $("#result").html("");
                     } else if (model.warnings) {
                         var content = ""
                         for (var i=0; i<model.warnings.length; i++) {
-                            content += model.warnings[i].replace("\n", "")
+                            content += model.warnings[i].replace("\n", "")+"<br/><br/>"
                         }
                         $("#error").html(content);
                     }
