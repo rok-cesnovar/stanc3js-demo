@@ -35,10 +35,12 @@
         <div class="page-links selected-link"><a href="canonicalizer.html">Canonicalizer</a></div>
 <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
 parameters {
+    real y[5];
     real x;
 }
 model {
-    target += normal_log(x, 0, 1);
+
+    target += normal_log(x, y, 1);
 }
 </textarea>
         <button id="compile">Print canonical</button>
