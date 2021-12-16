@@ -11,7 +11,7 @@
                     $("#error").html(model.errors[1]);
                     $("#result").html("");
                 } else {
-                    $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
+                    $("#result").html(Prism.highlight(model.result, Prism.languages.stan, 'stan'));
                     $("#error").html("");
                 }
             }
@@ -52,6 +52,6 @@ y
     </textarea>
         <button id="compile">Auto-format</button>
         <div id = "error" class="error-box"></div>
-        <pre><code id = "result" class="language-cpp"></code></pre>
+        <pre><code id = "result" class="language-stan"></code></pre>
     </body>
 </html>
