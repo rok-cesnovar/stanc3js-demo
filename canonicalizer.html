@@ -2,7 +2,11 @@
     <head>
         <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="prism.js"></script>
+        <link rel="stylesheet" href="https://prismjs.com/themes/prism.css">
+        <link rel="stylesheet" href="https://prismjs.com/plugins/line-numbers/prism-line-numbers.css">
+        <link rel="stylesheet" href="prism-live.css">
+        <link rel="stylesheet" href="style.css">
+       
         <script>
             function canonicalizer() {
                 var model = stanc("test_model",$("#model").val(), ["print-canonical"]);
@@ -22,18 +26,19 @@
                 canonicalizer();
             });
         </script>
-        <link rel="stylesheet" type="text/css" href="style.css?ver=1">
-        <link href="prism.css" rel="stylesheet" />
+        <!-- <link rel="stylesheet" type="text/css" href="style.css?ver=1"> -->
+        
         <title>Stan canonicalizer</title>
     </head>
     <body>
-        <div class="page-links"><a class="selected" href="index.html">Print C++</a></div>
+        <!-- <div class="page-links"><a class="selected" href="index.html">Print C++</a></div>
         <div class="page-links"><a href="pedantic.html">Pedantic check</a></div>
         <div class="page-links"><a href="signatures.html">Supported signatures</a></div>
         <div class="page-links"><a href="optimization.html">Optimization diff</a></div>
         <div class="page-links"><a href="autoformat.html">Auto format</a></div>
-        <div class="page-links selected-link"><a href="canonicalizer.html">Canonicalizer</a></div>
-<textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
+        <div class="page-links selected-link"><a href="canonicalizer.html">Canonicalizer</a></div> -->
+
+        <textarea id="model" class="prism-live language-stan line-numbers fill prism-live-source" name="subject" >
 parameters {
     real y[5];
     real x;
@@ -46,5 +51,15 @@ model {
         <button id="compile">Print canonical</button>
         <div id = "error" class="error-box"></div>
         <pre><code id = "result" class="language-cpp"></code></pre>
+
+<script src="https://blissfuljs.com/bliss.shy.min.js"></script>
+<script src="prism.js"></script>
+<script src="https://prismjs.com/plugins/line-numbers/prism-line-numbers.js"></script>
+<script src="prism-live.js"></script>
+<script src="prism-live-markup.js"></script>
+<script src="prism-live-css.js"></script>
+<script src="prism-live-javascript.js"></script>
+<script src="index.js"></script>
+<!-- <link href="prism.css" rel="stylesheet" /> -->
     </body>
 </html>
