@@ -5,7 +5,27 @@
         <script src="prism.js"></script>
         <script>
             function canonicalizer() {
-                var model = stanc("test_model",$("#model").val(), ["print-canonical"]);
+                let args = ["auto-format"]
+                let canonicalize_modes = ""
+                if ($("#parentheses")[0].checked) {
+                    canonicalize_modes += "parentheses"
+                }
+                if ($("#braces")[0].checked) {
+                    if (canonicalize_modes.length > 0) {
+                        canonicalize_modes += ","
+                    }
+                    canonicalize_modes += "braces"
+                }
+                if ($("#deprecations")[0].checked) {
+                    if (canonicalize_modes.length > 0) {
+                        canonicalize_modes += ","
+                    }
+                    canonicalize_modes += "deprecations"
+                }
+                if (canonicalize_modes.length > 0) {
+                    args.push("canonicalize="+canonicalize_modes)
+                }
+                var model = stanc("test_model",$("#model").val(), args);
                     
                 if(model.errors) {
                     $("#error").html(model.errors[1]);
@@ -39,11 +59,15 @@ parameters {
     real x;
 }
 model {
-
-    target += normal_log(x, y, 1);
+    
+    for (i in 1:5)
+        target += normal_log(x, y[i], (0.5 + 1));
 }
 </textarea>
         <button id="compile">Print canonical</button>
+        <input type= "checkbox" name="parantheses" checked=checked id="parentheses"/> Parentheses
+        <input type= "checkbox" name="braces" checked=checked id="braces"/> Braces
+        <input type= "checkbox" name="deprecations" checked=checked id="deprecations"/> Deprecations
         <div id = "error" class="error-box"></div>
         <pre><code id = "result" class="language-cpp"></code></pre>
     </body>
