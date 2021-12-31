@@ -108,3 +108,7 @@ pre {
     margin: 10 0 auto;
     display: inline;
 }
+
+#url-box {
+    word-break: break-all;
+}
