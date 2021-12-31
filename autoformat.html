@@ -1,7 +1,9 @@
 <html>
     <head>
-        <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script
+            src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="prism.js"></script>
         <script src="demo.js"></script>
         <script>
@@ -44,34 +46,36 @@
         <div class="page-links"><a href="pedantic.html">Pedantic check</a></div>
         <div class="page-links"><a href="signatures.html">Supported signatures</a></div>
         <div class="page-links"><a href="optimization.html">Optimization diff</a></div>
-        <div class="page-links selected-link"><a href="autoformat.html">Auto format</a></div>
+        <div class="page-links selected-link"><a href="autoformat.html">Auto
+                format</a></div>
         <div class="page-links"><a href="canonicalizer.html">Canonicalizer</a></div>
-    <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
-transformed data{
-    real m = 0;
-    for(i in 1:5) 
-    {
-m += 1.1* i;
-    }
-}
-        parameters {
-real
-y;  // comment
-}
-model {
-y
- ~ std_normal();
-}
-    </textarea>        
-    <div class="buttons">
-        <div class="action_btn">
-            <button id="compile" class="action_btn submit">Auto-format</button>
-            <button id="url" class="action_btn cancel">Generate URL</button>
-            <p id="saved"></p>
+        <textarea id="model" class="x" name="subject" style="height:200px"
+            spellcheck="false">
+            transformed data{
+            real m = 0;
+            for(i in 1:5)
+            {
+            m += 1.1* i;
+            }
+            }
+            parameters {
+            real
+            y; // comment
+            }
+            model {
+            y
+            ~ std_normal();
+            }
+        </textarea>
+        <div class="buttons">
+            <div class="action_btn">
+                <button id="compile" class="action_btn submit">Auto-format</button>
+                <button id="url" class="action_btn cancel">Generate URL</button>
+                <p id="saved"></p>
+            </div>
         </div>
-    </div>
-    <div id="url-box" class="error-box"></div>
-        <div id = "error" class="error-box"></div>
+        <div id="url-box" class="error-box"></div>
+        <div id="error" class="error-box"></div>
         <pre><code id = "result" class="language-stan"></code></pre>
     </body>
 </html>

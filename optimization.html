@@ -1,7 +1,9 @@
 <html>
     <head>
-        <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script
+            src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="prism.js"></script>
         <script src="demo.js"></script>
         <script>
@@ -54,43 +56,46 @@
         <div class="page-links"><a class="selected" href="index.html">Print C++</a></div>
         <div class="page-links"><a href="pedantic.html">Pedantic check</a></div>
         <div class="page-links"><a href="signatures.html">Supported signatures</a></div>
-        <div class="page-links selected-link"><a href="optimization.html">Optimization diff</a></div>
+        <div class="page-links selected-link"><a href="optimization.html">Optimization
+                diff</a></div>
         <div class="page-links"><a href="autoformat.html">Auto format</a></div>
         <div class="page-links"><a href="canonicalizer.html">Canonicalizer</a></div>
-    <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
-functions{
-    real foo(data real[,] x,
-    int[] y,
-    vector beta,
-    int N, 
-    int K) {
-        matrix[N,K] mx = to_matrix(x); 
-        return bernoulli_logit_lpmf(y | mx * beta);
-    }
-}
-parameters {
-    real y;
-}
-model {
-    y ~ std_normal();
-}
-    </textarea>
+        <textarea id="model" class="x" name="subject" style="height:200px"
+            spellcheck="false">
+            functions{
+            real foo(data real[,] x,
+            int[] y,
+            vector beta,
+            int N,
+            int K) {
+            matrix[N,K] mx = to_matrix(x);
+            return bernoulli_logit_lpmf(y | mx * beta);
+            }
+            }
+            parameters {
+            real y;
+            }
+            model {
+            y ~ std_normal();
+            }
+        </textarea>
         <div class="buttons">
             <div class="action_btn">
-                <button id="compile" class="action_btn submit" style="width: 180px">Compile w optimizations</button>
+                <button id="compile" class="action_btn submit" style="width:
+                    180px">Compile w optimizations</button>
                 <button id="url" class="action_btn cancel">Generate URL</button>
                 <p id="saved"></p>
             </div>
-        </div>    
+        </div>
         <div id="url-box" class="error-box"></div>
-        <div id = "error" class="error-box"></div>
+        <div id="error" class="error-box"></div>
         <section class="container short">
             <div class="one short">Unoptimized code</div>
-            <div class="two short">Optimized code</div>   
+            <div class="two short">Optimized code</div>
         </section>
         <section class="container">
             <div class="one"><pre><code id = "result2" class="language-cpp1"></code></pre></div>
-            <div class="two"><pre><code id = "result1" class="language-cpp2"></code></pre></div>            
+            <div class="two"><pre><code id = "result1" class="language-cpp2"></code></pre></div>
         </section>
     </body>
 </html>

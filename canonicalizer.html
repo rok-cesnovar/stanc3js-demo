@@ -1,7 +1,9 @@
 <html>
     <head>
-        <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script
+            src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="prism.js"></script>
         <script src="demo.js"></script>
         <script>
@@ -66,17 +68,18 @@
         <div class="page-links"><a href="optimization.html">Optimization diff</a></div>
         <div class="page-links"><a href="autoformat.html">Auto format</a></div>
         <div class="page-links selected-link"><a href="canonicalizer.html">Canonicalizer</a></div>
-<textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false">
-parameters {
-    real y[5];
-    real x;
-}
-model {
-    
-    for (i in 1:5)
-        target += normal_log(x, y[i], (0.5 + 1));
-}
-</textarea>
+        <textarea id="model" class="x" name="subject" style="height:200px"
+            spellcheck="false">
+            parameters {
+            real y[5];
+            real x;
+            }
+            model {
+
+            for (i in 1:5)
+            target += normal_log(x, y[i], (0.5 + 1));
+            }
+        </textarea>
         <div class="buttons">
             <div class="action_btn">
                 <button id="compile" class="action_btn submit">Print canonical</button>
@@ -84,11 +87,14 @@ model {
                 <p id="saved"></p>
             </div>
         </div>
-        <input type= "checkbox" name="parantheses" checked=checked id="parentheses"/> Parentheses
-        <input type= "checkbox" name="braces" checked=checked id="braces"/> Braces
-        <input type= "checkbox" name="deprecations" checked=checked id="deprecations"/> Deprecations    
+        <input type="checkbox" name="parantheses" checked=checked
+            id="parentheses" /> Parentheses
+        <input type="checkbox" name="braces" checked=checked id="braces" />
+        Braces
+        <input type="checkbox" name="deprecations" checked=checked
+            id="deprecations" /> Deprecations
         <div id="url-box" class="error-box"></div>
-        <div id = "error" class="error-box"></div>
+        <div id="error" class="error-box"></div>
         <pre><code id = "result" class="language-cpp"></code></pre>
     </body>
 </html>
