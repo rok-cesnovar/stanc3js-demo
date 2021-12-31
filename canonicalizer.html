@@ -40,9 +40,11 @@
             }
             $(document).ready(function(){
                 let model_url = GetURLParameter("model")
-                if (model_url) {
-                    $("#model").val(atob(decodeURIComponent(model_url)))
-                }
+            let model = "cGFyYW1ldGVycyB7CiAgcmVhbCB5WzVdOwogIHJlYWwgeDsKfQptb2RlbCB7CiAgZm9yIChpIGluIDEgOiA1KSB7CiAgICB0YXJnZXQgKz0gbm9ybWFsX2xvZyh4LCB5W2ldLCAoMC41ICsgMSkpOwogIH0KfQ%3D%3D"
+            if (model_url) {
+                model = model_url   
+            }
+            $("#model").val(atob(decodeURIComponent(model)))
                 $("#model").focus(function () {
                     $("#url-box").html("");
                 })
@@ -57,7 +59,7 @@
                 });
             });
         </script>
-        <link rel="stylesheet" type="text/css" href="style.css?ver=1">
+        <link rel="stylesheet" type="text/css" href="style.css?ver=5">
         <link href="prism.css" rel="stylesheet" />
         <title>Stan canonicalizer</title>
     </head>
@@ -69,17 +71,7 @@
         <div class="page-links"><a href="autoformat.html">Auto format</a></div>
         <div class="page-links selected-link"><a href="canonicalizer.html">Canonicalizer</a></div>
         <textarea id="model" class="x" name="subject" style="height:200px"
-            spellcheck="false">
-            parameters {
-            real y[5];
-            real x;
-            }
-            model {
-
-            for (i in 1:5)
-            target += normal_log(x, y[i], (0.5 + 1));
-            }
-        </textarea>
+            spellcheck="false"></textarea>
         <div class="buttons">
             <div class="action_btn">
                 <button id="compile" class="action_btn submit">Print canonical</button>

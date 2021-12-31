@@ -31,9 +31,11 @@
             }
             $(document).ready(function(){
                 let model_url = GetURLParameter("model")
+                let model = "ZnVuY3Rpb25zIHsKICByZWFsIGZvbyhkYXRhIGFycmF5WyxdIHJlYWwgeCwgYXJyYXlbXSBpbnQgeSwgdmVjdG9yIGJldGEsIGludCBOLCBpbnQgSykgewogICAgbWF0cml4W04sIEtdIG14ID0gdG9fbWF0cml4KHgpOwogICAgcmV0dXJuIGJlcm5vdWxsaV9sb2dpdF9scG1mKHkgfCBteCAqIGJldGEpOwogIH0KfQpwYXJhbWV0ZXJzIHsKICByZWFsIHk7Cn0KbW9kZWwgewogIHkgfiBzdGRfbm9ybWFsKCk7Cn0%3D"
                 if (model_url) {
-                    $("#model").val(atob(decodeURIComponent(model_url)))
+                    model = model_url   
                 }
+                $("#model").val(atob(decodeURIComponent(model)))
                 $("#model").focus(function () {
                     $("#url-box").html("");
                 })
@@ -48,7 +50,7 @@
                 });
             });
         </script>
-        <link rel="stylesheet" type="text/css" href="style.css?ver=1">
+        <link rel="stylesheet" type="text/css" href="style.css?ver=5">
         <link href="prism.css" rel="stylesheet" />
         <title>Stan-to-C++ optimizations</title>
     </head>
@@ -61,24 +63,7 @@
         <div class="page-links"><a href="autoformat.html">Auto format</a></div>
         <div class="page-links"><a href="canonicalizer.html">Canonicalizer</a></div>
         <textarea id="model" class="x" name="subject" style="height:200px"
-            spellcheck="false">
-            functions{
-            real foo(data real[,] x,
-            int[] y,
-            vector beta,
-            int N,
-            int K) {
-            matrix[N,K] mx = to_matrix(x);
-            return bernoulli_logit_lpmf(y | mx * beta);
-            }
-            }
-            parameters {
-            real y;
-            }
-            model {
-            y ~ std_normal();
-            }
-        </textarea>
+            spellcheck="false"></textarea>
         <div class="buttons">
             <div class="action_btn">
                 <button id="compile" class="action_btn submit" style="width:
