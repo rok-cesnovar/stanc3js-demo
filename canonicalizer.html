@@ -3,6 +3,7 @@
         <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="prism.js"></script>
+        <script src="demo.js"></script>
         <script>
             function canonicalizer() {
                 let args = ["auto-format"]
@@ -36,10 +37,22 @@
                 }
             }
             $(document).ready(function(){
+                let model_url = GetURLParameter("model")
+                if (model_url) {
+                    $("#model").val(atob(decodeURIComponent(model_url)))
+                }
+                $("#model").focus(function () {
+                    $("#url-box").html("");
+                })
                 $("#compile").click(function() {
                     canonicalizer();                    
                 });
                 canonicalizer();
+
+                $("#url").click(function () {
+                    let url = window.location.href.split('?')[0]  + "?model=" + encodeURIComponent(btoa($("#model").val()))
+                    $("#url-box").html(url);
+                });
             });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css?ver=1">
@@ -64,7 +77,13 @@ model {
         target += normal_log(x, y[i], (0.5 + 1));
 }
 </textarea>
-        <button id="compile">Print canonical</button>
+        <div class="buttons">
+            <div class="action_btn">
+                <button id="compile" class="action_btn submit">Print canonical</button>
+                <button id="url" class="action_btn cancel">Generate URL</button>
+                <p id="saved"></p>
+            </div>
+        </div>
         <input type= "checkbox" name="parantheses" checked=checked id="parentheses"/> Parentheses
         <input type= "checkbox" name="braces" checked=checked id="braces"/> Braces
         <input type= "checkbox" name="deprecations" checked=checked id="deprecations"/> Deprecations

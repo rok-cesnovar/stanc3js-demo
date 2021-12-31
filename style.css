@@ -97,3 +97,14 @@ pre {
 .selected-link a {
     color: #b2001d;
 }
+.buttons {
+    width: 200px;
+    margin: 0 auto;
+    display: inline;
+}
+   
+.action_btn {
+    width: 150px;
+    margin: 10 0 auto;
+    display: inline;
+}
