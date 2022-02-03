@@ -7,8 +7,9 @@
         <script src="prism.js"></script>
         <script src="demo.js"></script>
         <script>
-            function canonicalizer() {
-                let args = ["auto-format"]
+            function canonicalizer(line_length) {
+                let line_length_arg = "max-line-length=" + line_length.toString()
+                let args = ["auto-format", line_length_arg]
                 let canonicalize_modes = ""
                 if ($("#parentheses")[0].checked) {
                     canonicalize_modes += "parentheses"
@@ -40,21 +41,28 @@
             }
             $(document).ready(function(){
                 let model_url = GetURLParameter("model")
-            let model = "cGFyYW1ldGVycyB7CiAgcmVhbCB5WzVdOwogIHJlYWwgeDsKfQptb2RlbCB7CiAgZm9yIChpIGluIDEgOiA1KSB7CiAgICB0YXJnZXQgKz0gbm9ybWFsX2xvZyh4LCB5W2ldLCAoMC41ICsgMSkpOwogIH0KfQ%3D%3D"
-            if (model_url) {
-                model = model_url   
-            }
-            $("#model").val(atob(decodeURIComponent(model)))
+                let line_length = GetURLParameter("line_length")
+                if (!line_length) {
+                    line_length = 78
+                } else {
+                    $("#line-length").val(line_length)
+                }
+                let model = "cGFyYW1ldGVycyB7CiAgcmVhbCB5WzVdOwogIHJlYWwgeDsKfQptb2RlbCB7CiAgZm9yIChpIGluIDEgOiA1KSB7CiAgICB0YXJnZXQgKz0gbm9ybWFsX2xvZyh4LCB5W2ldLCAoMC41ICsgMSkpOwogIH0KfQ%3D%3D"
+                if (model_url) {
+                    model = model_url   
+                }
+                $("#model").val(atob(decodeURIComponent(model)))
                 $("#model").focus(function () {
                     $("#url-box").html("");
                 })
                 $("#compile").click(function() {
-                    canonicalizer();                    
+                    line_length = $("#line-length").val()
+                    canonicalizer(line_length);                    
                 });
-                canonicalizer();
+                canonicalizer(line_length);
 
                 $("#url").click(function () {
-                    let url = window.location.href.split('?')[0]  + "?model=" + encodeURIComponent(btoa($("#model").val()))
+                    let url = window.location.href.split('?')[0] + "?line_length="+ $("#line-length").val() + "&model=" + encodeURIComponent(btoa($("#model").val()))
                     $("#url-box").html(url);
                 });
             });
@@ -85,6 +93,8 @@
         Braces
         <input type="checkbox" name="deprecations" checked=checked
             id="deprecations" /> Deprecations
+        <br/><br/>
+        Line length limit: <input type= "number" id="line-length" value = "78" style="width: 60px;" />
         <div id="url-box" class="error-box"></div>
         <div id="error" class="error-box"></div>
         <pre><code id = "result" class="language-cpp"></code></pre>
