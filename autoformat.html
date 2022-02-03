@@ -7,8 +7,9 @@
         <script src="prism.js"></script>
         <script src="demo.js"></script>
         <script>
-            function auto_format() {
-                var model = stanc("test_model",$("#model").val(), ["auto-format"]);
+            function auto_format(line_length) {
+                let abc = "max-line-length="+line_length.toString()
+                var model = stanc("test_model",$("#model").val(), ["auto-format", abc]);
                     
                 if(model.errors) {
                     $("#error").html(model.errors[1]);
@@ -19,7 +20,11 @@
                 }
             }
             $(document).ready(function(){
-                let model_url = GetURLParameter("model")                
+                let model_url = GetURLParameter("model")
+                let line_length = GetURLParameter("line_length")
+                if (!line_length) {
+                    line_length = 78
+                }
                 let model = "dHJhbnNmb3JtZWQgZGF0YXsKcmVhbCBtID0gMDsKZm9yKGkgaW4gMTo1KQp7Cm0gKz0gMS4xKiBpOwp9Cn0KcGFyYW1ldGVycyB7CnJlYWwKeTsgLy8gY29tbWVudAp9Cm1vZGVsIHsKeQp%2BIHN0ZF9ub3JtYWwoKTsKfQ%3D%3D"
                 if (model_url) {
                     model = model_url   
@@ -29,12 +34,13 @@
                     $("#url-box").html("");
                 })
                 $("#compile").click(function() {
-                    auto_format();                    
+                    line_length = $("#line-length").val()
+                    auto_format(line_length);                    
                 });
-                auto_format();
+                auto_format(line_length);
 
                 $("#url").click(function () {
-                    let url = window.location.href.split('?')[0]  + "?model=" + encodeURIComponent(btoa($("#model").val()))
+                    let url = window.location.href.split('?')[0] + "?line_length="+ $("#line-length").val() + "?model=" + encodeURIComponent(btoa($("#model").val()))
                     $("#url-box").html(url);
                 });
             });
@@ -57,6 +63,7 @@
             <div class="action_btn">
                 <button id="compile" class="action_btn submit">Auto-format</button>
                 <button id="url" class="action_btn cancel">Generate URL</button>
+                Line length limit: <input type= "number" id="line-length" value = "78" style="width: 60px;" />
                 <p id="saved"></p>
             </div>
         </div>
