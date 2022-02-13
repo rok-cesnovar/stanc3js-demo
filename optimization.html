@@ -9,7 +9,14 @@
         <script>
 
             function optimization() {
-                var model_opt = stanc("test_model",$("#model").val(), ["O", "debug-optimized-mir-pretty"]);
+                var opt = "O1"
+                if ($("#O0").prop("checked")) {
+                    opt = "O0"
+                }
+                if ($("#0experimental").prop("checked")) {
+                    opt = "0experimental"
+                }
+                var model_opt = stanc("test_model",$("#model").val(), [opt, "debug-optimized-mir-pretty"]);
                     
                 if(model_opt.errors) {
                     $("#error").html(model_opt.errors[1]);
@@ -72,6 +79,10 @@
                 <p id="saved"></p>
             </div>
         </div>
+        Choose optimization level:
+        <input type="radio" name="opt" id="O0" value="O0" /> O0
+        <input type="radio" name="opt" checked=checked id="O1" value="O1" /> 01
+        <input type="radio" name="opt" value="0experimental" id="0experimental" /> 0experimental
         <div id="url-box" class="error-box"></div>
         <div id="error" class="error-box"></div>
         <section class="container short">
