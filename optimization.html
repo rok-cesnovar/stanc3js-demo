@@ -9,7 +9,7 @@
         <script>
 
             function optimization() {
-                var model_opt = stanc("test_model",$("#model").val(), ["O", "debug-optimized-mir"]);
+                var model_opt = stanc("test_model",$("#model").val(), ["O", "debug-optimized-mir-pretty"]);
                     
                 if(model_opt.errors) {
                     $("#error").html(model_opt.errors[1]);
@@ -19,7 +19,7 @@
                     $("#error").html("");
                 }
 
-                var model_no_opt = stanc("test_model",$("#model").val(), ["debug-optimized-mir"]);
+                var model_no_opt = stanc("test_model",$("#model").val(), ["debug-optimized-mir-pretty"]);
                 
                 if(model_no_opt.errors) {
                     $("#error").html(model_no_opt.errors[1]);
