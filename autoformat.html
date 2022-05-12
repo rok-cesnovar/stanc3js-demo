@@ -10,9 +10,9 @@
             function auto_format(line_length) {
                 let line_length_arg = "max-line-length="+line_length.toString()
                 var model = stanc("test_model",$("#model").val(), ["auto-format", line_length_arg]);
-                    
+
                 if(model.errors) {
-                    $("#error").html(model.errors[1]);
+                    $("#error").html(model.errors[1].replace(/\n/g, "<br/>"));
                     $("#result").html("");
                 } else {
                     $("#result").html(Prism.highlight(model.result, Prism.languages.stan, 'stan'));
@@ -29,7 +29,7 @@
                 }
                 let model = "dHJhbnNmb3JtZWQgZGF0YXsKcmVhbCBtID0gMDsKZm9yKGkgaW4gMTo1KQp7Cm0gKz0gMS4xKiBpOwp9Cn0KcGFyYW1ldGVycyB7CnJlYWwKeTsgLy8gY29tbWVudAp9Cm1vZGVsIHsKeQp%2BIHN0ZF9ub3JtYWwoKTsKfQ%3D%3D"
                 if (model_url) {
-                    model = model_url   
+                    model = model_url
                 }
                 $("#model").val(atob(decodeURIComponent(model)))
                 $("#model").focus(function () {
@@ -37,7 +37,7 @@
                 })
                 $("#compile").click(function() {
                     line_length = $("#line-length").val()
-                    auto_format(line_length);                    
+                    auto_format(line_length);
                 });
                 auto_format(line_length);
 

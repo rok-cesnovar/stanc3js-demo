@@ -10,7 +10,7 @@
             function pedantic_check() {
                 var model = stanc("test_model",$("#model").val(), ["warn-pedantic", "filename-in-msg=demo-model"]);
                 if(model.errors) {
-                    $("#error").html(model.errors[1]);
+                    $("#error").html(model.errors[1].replace(/\n/g, "<br/>"));
                     $("#result").html("");
                 } else if (model.warnings) {
                     var content = ""
@@ -20,12 +20,12 @@
                     $("#error").html(content);
                 }
             }
-            
+
             $(document).ready(function(){
                 let model_url = GetURLParameter("model")
                 let model = "cGFyYW1ldGVycyB7CiAgcmVhbCB5Owp9Cm1vZGVsIHsKICB5IH4gbm9ybWFsKDAsIDEwMDApOwogIHkgfiBub3JtYWwoMCwgMTApOwp9"
                 if (model_url) {
-                    model = model_url   
+                    model = model_url
                 }
                 $("#model").val(atob(decodeURIComponent(model)))
                 $("#model").focus(function () {

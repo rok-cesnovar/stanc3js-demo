@@ -30,9 +30,9 @@
                     args.push("canonicalize="+canonicalize_modes)
                 }
                 var model = stanc("test_model",$("#model").val(), args);
-                    
+
                 if(model.errors) {
-                    $("#error").html(model.errors[1]);
+                    $("#error").html(model.errors[1].replace(/\n/g, "<br/>"));
                     $("#result").html("");
                 } else {
                     $("#result").html(Prism.highlight(model.result, Prism.languages.stan, 'stan'));
@@ -49,7 +49,7 @@
                 }
                 let model = "cGFyYW1ldGVycyB7CiAgcmVhbCB5WzVdOwogIHJlYWwgeDsKfQptb2RlbCB7CiAgZm9yIChpIGluIDEgOiA1KSB7CiAgICB0YXJnZXQgKz0gbm9ybWFsX2xvZyh4LCB5W2ldLCAoMC41ICsgMSkpOwogIH0KfQ%3D%3D"
                 if (model_url) {
-                    model = model_url   
+                    model = model_url
                 }
                 $("#model").val(atob(decodeURIComponent(model)))
                 $("#model").focus(function () {
@@ -57,7 +57,7 @@
                 })
                 $("#compile").click(function() {
                     line_length = $("#line-length").val()
-                    canonicalizer(line_length);                    
+                    canonicalizer(line_length);
                 });
                 canonicalizer(line_length);
 
