@@ -9,7 +9,7 @@
             var model = stanc("test_model", $("#model").val());
 
             if (model.errors) {
-                $("#error").html(model.errors[1]);
+                $("#error").html(model.errors[1].replace(/\n/g, "<br/>"));
                 $("#result").html("");
             } else {
                 $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
@@ -20,7 +20,7 @@
             let model_url = GetURLParameter("model")
             let model = "cGFyYW1ldGVycyB7CiAgICByZWFsIHk7Cn0KbW9kZWwgewogICAgeSB%2BIHN0ZF9ub3JtYWwoKTsKfQ%3D%3D"
             if (model_url) {
-                model = model_url   
+                model = model_url
             }
             $("#model").val(atob(decodeURIComponent(model)))
             $("#model").focus(function () {
@@ -58,7 +58,7 @@
 
             <p id="saved"></p>
             </div>
-        </div>     
+        </div>
         <div id="url-box" class="error-box"></div>
         <div id="error" class="error-box"></div>
         <pre><code id = "result" class="language-cpp"></code></pre>
