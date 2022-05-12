@@ -32,7 +32,7 @@
                 var model = stanc("test_model",$("#model").val(), args);
 
                 if(model.errors) {
-                    $("#error").html(model.errors[1].replace(/\n/g, "<br/>"));
+                    $("#error").html(model.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
                     $("#result").html("");
                 } else {
                     $("#result").html(Prism.highlight(model.result, Prism.languages.stan, 'stan'));

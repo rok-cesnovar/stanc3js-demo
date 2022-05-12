@@ -19,7 +19,7 @@
                 var model_opt = stanc("test_model",$("#model").val(), [opt, "debug-optimized-mir-pretty"]);
 
                 if(model_opt.errors) {
-                    $("#error").html(model_opt.errors[1].replace(/\n/g, "<br/>"));
+                    $("#error").html(model_opt.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
                     $("#result1").html("");
                 } else {
                     $("#result1").html(Prism.highlight(model_opt.result, Prism.languages.stan, 'cpp'));
@@ -29,7 +29,7 @@
                 var model_no_opt = stanc("test_model",$("#model").val(), ["debug-optimized-mir-pretty"]);
 
                 if(model_no_opt.errors) {
-                    $("#error").html(model_no_opt.errors[1].replace(/\n/g, "<br/>"));
+                    $("#error").html(model_no_opt.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
                     $("#result2").html("");
                 } else {
                     $("#result2").html(Prism.highlight(model_no_opt.result, Prism.languages.stan, 'cpp'));
