@@ -1,80 +1,33 @@
-<html>
-    <head>
-        <script
-            src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
-        <script
-            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="prism.js"></script>
-        <script src="demo.js"></script>
-        <script>
+<!DOCTYPE html>
+<html lang="en">
 
-            function optimization() {
-                var opt = "O1"
-                if ($("#O0").prop("checked")) {
-                    opt = "O0"
-                }
-                if ($("#0experimental").prop("checked")) {
-                    opt = "0experimental"
-                }
-                var model_opt = stanc("test_model",$("#model").val(), [opt, "debug-optimized-mir-pretty"]);
+<head>
+    <meta charset="UTF-8">
+    <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://prismjs.com/themes/prism.css">
+    <link rel="stylesheet" href="https://prismjs.com/plugins/line-numbers/prism-line-numbers.css">
+    <link rel="stylesheet" href="prism-live.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="demo.js"></script>
+    <title>Stan-to-C++ optimizations</title>
+</head>
 
-                if(model_opt.errors) {
-                    $("#error").html(model_opt.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
-                    $("#result1").html("");
-                } else {
-                    $("#result1").html(Prism.highlight(model_opt.result, Prism.languages.stan, 'cpp'));
-                    $("#error").html("");
-                }
-
-                var model_no_opt = stanc("test_model",$("#model").val(), ["debug-optimized-mir-pretty"]);
-
-                if(model_no_opt.errors) {
-                    $("#error").html(model_no_opt.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
-                    $("#result2").html("");
-                } else {
-                    $("#result2").html(Prism.highlight(model_no_opt.result, Prism.languages.stan, 'cpp'));
-                    $("#error").html("");
-                }
-            }
-            $(document).ready(function(){
-                let model_url = GetURLParameter("model")
-                let model = "ZnVuY3Rpb25zIHsKICByZWFsIGZvbyhkYXRhIGFycmF5WyxdIHJlYWwgeCwgYXJyYXlbXSBpbnQgeSwgdmVjdG9yIGJldGEsIGludCBOLCBpbnQgSykgewogICAgbWF0cml4W04sIEtdIG14ID0gdG9fbWF0cml4KHgpOwogICAgcmV0dXJuIGJlcm5vdWxsaV9sb2dpdF9scG1mKHkgfCBteCAqIGJldGEpOwogIH0KfQpwYXJhbWV0ZXJzIHsKICByZWFsIHk7Cn0KbW9kZWwgewogIHkgfiBzdGRfbm9ybWFsKCk7Cn0%3D"
-                if (model_url) {
-                    model = model_url
-                }
-                $("#model").val(atob(decodeURIComponent(model)))
-                $("#model").focus(function () {
-                    $("#url-box").html("");
-                })
-                $("#compile").click(function() {
-                    optimization();
-                });
-                optimization();
-
-                $("#url").click(function () {
-                    let url = window.location.href.split('?')[0]  + "?model=" + encodeURIComponent(btoa($("#model").val()))
-                    $("#url-box").html(url);
-                });
-            });
-        </script>
-        <link rel="stylesheet" type="text/css" href="style.css?ver=5">
-        <link href="prism.css" rel="stylesheet" />
-        <title>Stan-to-C++ optimizations</title>
-    </head>
-    <body>
-        <div class="page-links"><a class="selected" href="index.html">Print C++</a></div>
+<body>
+    <main>
+        <div class="page-links"><a href="index.html">Print C++</a></div>
         <div class="page-links"><a href="pedantic.html">Pedantic check</a></div>
         <div class="page-links"><a href="signatures.html">Supported signatures</a></div>
-        <div class="page-links selected-link"><a href="optimization.html">Optimization
+        <div class="page-links selected-link"><a class="selected" href="optimization.html">Optimization
                 diff</a></div>
         <div class="page-links"><a href="autoformat.html">Auto format</a></div>
         <div class="page-links"><a href="canonicalizer.html">Canonicalizer</a></div>
-        <textarea id="model" class="x" name="subject" style="height:200px"
-            spellcheck="false"></textarea>
+        <div style="clear:both;"></div>
+        <textarea id="model" class="prism-live line-numbers language-stan" spellcheck="false"></textarea>
         <div class="buttons">
             <div class="action_btn">
                 <button id="compile" class="action_btn submit" style="width:
-                    180px">Compile w optimizations</button>
+                180px">Compile w optimizations</button>
                 <button id="url" class="action_btn cancel">Generate URL</button>
                 <p id="saved"></p>
             </div>
@@ -90,8 +43,71 @@
             <div class="two short">Optimized code</div>
         </section>
         <section class="container">
-            <div class="one"><pre><code id = "result2" class="language-cpp1"></code></pre></div>
-            <div class="two"><pre><code id = "result1" class="language-cpp2"></code></pre></div>
+            <div class="one">
+                <pre><code id = "result2" class="language-cpp1"></code></pre>
+            </div>
+            <div class="two">
+                <pre><code id = "result1" class="language-cpp2"></code></pre>
+            </div>
         </section>
-    </body>
+    </main>
+
+</body>
+<script>
+    function optimization() {
+        var opt = "O1"
+        if ($("#O0").prop("checked")) {
+            opt = "O0"
+        }
+        if ($("#0experimental").prop("checked")) {
+            opt = "0experimental"
+        }
+        var model_opt = stanc("test_model", $("#model").val(), [opt, "debug-optimized-mir-pretty"]);
+
+        if (model_opt.errors) {
+            $("#error").html(model_opt.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
+            $("#result1").html("");
+        } else {
+            $("#result1").html(Prism.highlight(model_opt.result, Prism.languages.stan, 'cpp'));
+            $("#error").html("");
+        }
+
+        var model_no_opt = stanc("test_model", $("#model").val(), ["debug-optimized-mir-pretty"]);
+
+        if (model_no_opt.errors) {
+            $("#error").html(model_no_opt.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
+            $("#result2").html("");
+        } else {
+            $("#result2").html(Prism.highlight(model_no_opt.result, Prism.languages.stan, 'cpp'));
+            $("#error").html("");
+        }
+    }
+    $(document).ready(function () {
+        let model_url = GetURLParameter("model")
+        let model = "ZnVuY3Rpb25zIHsKICByZWFsIGZvbyhkYXRhIGFycmF5WyxdIHJlYWwgeCwgYXJyYXlbXSBpbnQgeSwgdmVjdG9yIGJldGEsIGludCBOLCBpbnQgSykgewogICAgbWF0cml4W04sIEtdIG14ID0gdG9fbWF0cml4KHgpOwogICAgcmV0dXJuIGJlcm5vdWxsaV9sb2dpdF9scG1mKHkgfCBteCAqIGJldGEpOwogIH0KfQpwYXJhbWV0ZXJzIHsKICByZWFsIHk7Cn0KbW9kZWwgewogIHkgfiBzdGRfbm9ybWFsKCk7Cn0%3D"
+        if (model_url) {
+            model = model_url
+        }
+        decoded_model = atob(decodeURIComponent(model))
+        $("#model").val(decoded_model)
+        $("code", $("#model").prev()).html(decoded_model)
+        $("#model").focus(function () {
+            $("#url-box").html("");
+        })
+        $("#compile").click(function () {
+            optimization();
+        });
+        optimization();
+
+        $("#url").click(function () {
+            let url = window.location.href.split('?')[0] + "?model=" + encodeURIComponent(btoa($("#model").val()))
+            $("#url-box").html(url);
+        });
+    });
+</script>
+<script src="https://blissfuljs.com/bliss.shy.min.js"></script>
+<script src="prism.js"></script>
+<script src="https://prismjs.com/plugins/line-numbers/prism-line-numbers.js"></script>
+<script src="src/prism-live.js"></script>
+
 </html>
