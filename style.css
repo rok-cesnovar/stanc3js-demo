@@ -3,7 +3,7 @@
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box;
+    box-sizing: border-box;    margin-bottom: 10px;
     resize: vertical;
     margin-top: 5px;
 }
@@ -22,10 +22,9 @@ button {
     border-radius: 4px;
     box-sizing: border-box;
     resize: vertical;
+    display: none;
 }
-pre {
-    border: 5px black solid;
-}
+
 #functions {
     cursor: default;
     font-size: 15px;
@@ -42,33 +41,36 @@ pre {
     font-size: 18px;
 }
 
-#list, #list-title {
+#list,
+#list-title {
     margin-left: 15px;
     margin-top: 20px;
 }
+
 #list {
     font-family: monospace;
 }
+
 .container {
-  width: 95%;
-  height: 200px;
-  margin: auto;
-  padding: 10px;
+    width: 95%;
+    height: 200px;
+    margin: auto;
+    padding: 10px;
 }
 
 .one {
-  width: 50%;
-  height: 200px;
-  float: left;
+    width: 50%;
+    height: 200px;
+    float: left;
 }
 
 .two {
-  margin-left: 50%;
-  height: 200px;
+    margin-left: 50%;
+    height: 200px;
 }
 
 .short {
-    height:10px;
+    height: 10px;
 }
 
 .page-links {
@@ -83,6 +85,7 @@ pre {
     padding-top: 5px;
     border-radius: 6px;
     background-color: #b2001d;
+    margin-bottom: 10px;
 }
 
 .page-links a {
@@ -97,12 +100,13 @@ pre {
 .selected-link a {
     color: #b2001d;
 }
+
 .buttons {
     width: 200px;
     margin: 0 auto;
     display: inline;
 }
-   
+
 .action_btn {
     width: 150px;
     margin: 10 0 auto;
@@ -111,4 +115,63 @@ pre {
 
 #url-box {
     word-break: break-all;
+}
+
+body {
+    margin: 0;
+    font: 100%/1.5 Geneva, Segoe UI, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Didot, "Didot LT STD", Bodoni MT, "Hoefler Text", Garamond, "Times New Roman", serif
+}
+
+header {
+    padding: 1em;
+    margin-top: 0;
+    background: black;
+
+    background-image: conic-gradient(from 98deg at 50% 25%, red,
+            hsl(55, 90%, 50%), hsl(80, 80%, 50%), hsl(180, 80%, 50%), hsl(220, 90%, 50%), purple,
+            transparent 5%, transparent 44%, white 0, white 45%, transparent 0);
+    color: white;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 auto;
+    width: min-content;
+    text-transform: uppercase;
+    font-size: 220%;
+}
+
+header h1 img {
+    display: block;
+    width: 5em;
+}
+
+header h2 {
+    margin: .5em 0 0;
+    font-size: 100%;
+    color: hsl(80, 80%, 50%);
+    font-family: inherit;
+}
+
+main,
+footer {
+    padding: 1em calc(50vw - 600px);
+}
+
+footer {
+    margin-top: 1em;
+    color: gray;
+}
+
+#result-pre {
+    display: none;
 }
