@@ -1,66 +1,89 @@
-<html>
-    <head>
-        <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="prism.js"></script>
-        <script src="demo.js"></script>
-        <script>
-        function compile() {
-            var model = stanc("test_model", $("#model").val());
+<!DOCTYPE html>
+<html lang="en">
 
-            if (model.errors) {
-                $("#error").html(model.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
-                $("#result").html("");
-            } else {
-                $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
-                $("#error").html("");
-            }
-        }
-        $(document).ready(function () {
-            let model_url = GetURLParameter("model")
-            let model = "cGFyYW1ldGVycyB7CiAgICByZWFsIHk7Cn0KbW9kZWwgewogICAgeSB%2BIHN0ZF9ub3JtYWwoKTsKfQ%3D%3D"
-            if (model_url) {
-                model = model_url
-            }
-            $("#model").val(atob(decodeURIComponent(model)))
-            $("#model").focus(function () {
-                $("#url-box").html("");
-            })
+<head>
+    <meta charset="UTF-8">
+    <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://prismjs.com/themes/prism.css">
+    <link rel="stylesheet" href="https://prismjs.com/plugins/line-numbers/prism-line-numbers.css">
+    <link rel="stylesheet" href="prism-live.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="demo.js"></script>
+</head>
 
-            $("#compile").click(function () {
-                compile();
-            });
-            compile();
+<body>
+    <main>
+        <div class="page-links selected-link"><a class="selected" href="index.html">Print C++</a></div>
+        <div class="page-links"><a href="pedantic.html">Pedantic check</a></div>
+        <div class="page-links"><a href="signatures.html">Supported signatures</a></div>
+        <div class="page-links"><a href="optimization.html">Optimization diff</a></div>
+        <div class="page-links"><a href="autoformat.html">Auto format</a></div>
+        <div class="page-links"><a href="canonicalizer.html">Canonicalizer</a></div>
+        <div style="clear:both;"><textarea id="model" class="prism-live line-numbers language-stan"
+                spellcheck="false"></textarea></div>
 
-            $("#url").click(function () {
-                let url = window.location.href.split('?')[0]  + "?model=" + encodeURIComponent(btoa($("#model").val()))
-                $("#url-box").html(url);
-            });
-        });
-        </script>
-        <link rel="stylesheet" type="text/css" href="style.css?ver=5">
-        <link href="prism.css" rel="stylesheet" />
-        <title>Stan-to-C++ demo</title>
-    </head>
-    <div class="page-links selected-link"><a class="selected" href="index.html">Print C++</a></div>
-    <div class="page-links"><a href="pedantic.html">Pedantic check</a></div>
-    <div class="page-links"><a href="signatures.html">Supported signatures</a></div>
-    <div class="page-links"><a href="optimization.html">Optimization diff</a></div>
-    <div class="page-links"><a href="autoformat.html">Auto format</a></div>
-    <div class="page-links"><a href="canonicalizer.html">Canonicalizer</a></div>
-    <textarea id="model" class="x" name="subject" style="height:200px" spellcheck="false"></textarea>
         <div class="buttons">
 
             <div class="action_btn">
 
-            <button id="compile" class="action_btn submit">Compile</button>
-            <button id="url" class="action_btn cancel">Generate URL</button>
+                <button id="compile" class="action_btn submit">Compile</button>
+                <button id="url" class="action_btn cancel">Generate URL</button>
 
-            <p id="saved"></p>
+                <p id="saved"></p>
             </div>
         </div>
         <div id="url-box" class="error-box"></div>
         <div id="error" class="error-box" style="white-space: pre-line;"></div>
-        <pre><code id = "result" class="language-cpp"></code></pre>
-    </body>
+        <pre id="result-pre"><code id = "result" class="language-cpp"></code></pre>
+    </main>
+
+    <script src="https://blissfuljs.com/bliss.shy.min.js"></script>
+    <script src="prism.js"></script>
+    <script src="https://prismjs.com/plugins/line-numbers/prism-line-numbers.js"></script>
+    <script src="src/prism-live.js"></script>
+    <script src="src/prism-live-markup.js"></script>
+    <script src="src/prism-live-css.js"></script>
+    <script src="src/prism-live-javascript.js"></script>
+
+</body>
+<script>
+    function compile() {
+        var model = stanc("test_model", $("#model").val());
+
+        if (model.errors) {
+            $("#error").html(model.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
+            $("#result").html("");
+            $("#result-pre").hide();
+            $("#error").show();
+        } else {
+            $("#result").html(Prism.highlight(model.result, Prism.languages.cpp, 'cpp'));
+            $("#error").html("");
+            $("#result-pre").show();
+            $("#error").hide();
+        }
+    }
+    $(document).ready(function () {
+        let model_url = GetURLParameter("model")
+        let model = "cGFyYW1ldGVycyB7CiAgICByZWFsIHk7Cn0KbW9kZWwgewogICAgeSB%2BIHN0ZF9ub3JtYWwoKTsKfQ%3D%3D"
+        if (model_url) {
+            model = model_url
+        }
+        $("#model").val(atob(decodeURIComponent(model)))
+        $("#model").focus(function () {
+            $("#url-box").html("");
+        })
+
+        $("#compile").click(function () {
+            compile();
+        });
+        compile();
+
+        $("#url").click(function () {
+            let url = window.location.href.split('?')[0] + "?model=" + encodeURIComponent(btoa($("#model").val()))
+            $("#url-box").html(url);
+        });
+    });
+</script>
+
 </html>
