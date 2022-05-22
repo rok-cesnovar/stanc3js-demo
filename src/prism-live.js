@@ -3,6 +3,7 @@
 	Works best in Chrome. Currently only very basic support in other browsers (no snippets, no shortcuts)
 	@author Lea Verou
 */
+var prism__;
 (async function() {
 
 const CURRENT_URL = document.currentScript? new URL(document.currentScript.src) : null;
@@ -763,6 +764,8 @@ var _ = Prism.Live = class PrismLive {
 	}
 };
 
+
+prism__ = _
 // Static properties
 Object.assign(_, {
 	all: new WeakMap(),

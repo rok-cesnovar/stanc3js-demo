@@ -51,7 +51,6 @@ model {
     $(document).ready(function () {
         function compile() {
             var model = stanc("test_model", $("#model").val());
-
             if (model.errors) {
                 $("#error").html(model.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
                 $("#result").html("");
@@ -69,7 +68,10 @@ model {
         if (model_url) {
             model = model_url
         }
-        $("#model").val(atob(decodeURIComponent(model)))
+        decoded_model = atob(decodeURIComponent(model))
+        $("#model").val(decoded_model)
+        $("code", $("#model").prev()).html(decoded_model)
+        Prism.highlightAll()
         $("#model").focus(function () {
             $("#url-box").html("");
         })
@@ -89,7 +91,4 @@ model {
     <script src="prism.js"></script>
     <script src="https://prismjs.com/plugins/line-numbers/prism-line-numbers.js"></script>
     <script src="src/prism-live.js"></script>
-    <script src="src/prism-live-markup.js"></script>
-    <script src="src/prism-live-css.js"></script>
-    <script src="src/prism-live-javascript.js"></script>
 </html>
