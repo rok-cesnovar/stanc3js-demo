@@ -34,17 +34,14 @@
                         sigs = request.responseText;
                         sigs = sigs.match(/[^\r\n]+/g);
                         var i = 0;
-                        next_sig = ""
                         for (i in sigs) {
-                            next_sig += sigs[i]
-                            if (next_sig.includes("=>") && !next_sig.endsWith(",")) {
-                                let fun = next_sig.split("(")[0]
+                            if (sigs[i].includes("=>")) {
+                                let fun = sigs[i].split("(")[0].trim()
                                 if (functions_sigs[fun]) {
-                                    functions_sigs[fun] += "<br/>" + next_sig
+                                    functions_sigs[fun] += "<br/>" + sigs[i]
                                 } else {
-                                    functions_sigs[fun] = next_sig
-                                }                                
-                                next_sig = ""
+                                    functions_sigs[fun] = sigs[i]
+                                }
                             }
                             i+=1
                         }
