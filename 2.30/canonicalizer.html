@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="https://github.com/stan-dev/stanc3/releases/download/nightly/stanc.js"></script>
+    <script src="https://github.com/stan-dev/stanc3/releases/download/v2.30.0/stanc.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="prism/prism.css">
     <link rel="stylesheet" href="https://prismjs.com/plugins/line-numbers/prism-line-numbers.css">
     <link rel="stylesheet" href="prism/prism-live.css">
     <link rel="stylesheet" href="style.css">
     <script src="demo.js"></script>
+    <title>Stan canonicalizer</title>
 </head>
 
 <body>
@@ -18,19 +19,26 @@
         <div class="page-links"><a href="pedantic.html">Pedantic check</a></div>
         <div class="page-links"><a href="signatures.html">Supported signatures</a></div>
         <div class="page-links"><a href="optimization.html">Optimization diff</a></div>
-        <div class="page-links selected-link"><a class="selected" href="autoformat.html">Auto format</a></div>
-        <div class="page-links"><a href="canonicalizer.html">Canonicalizer</a></div>
+        <div class="page-links"><a href="autoformat.html">Auto format</a></div>
+        <div class="page-links selected-link"><a class="selected" href="canonicalizer.html">Canonicalizer</a></div>
         <div style="clear:both;"></div>
         <textarea id="model" class="prism-live line-numbers language-stan" spellcheck="false"></textarea>
 
         <div class="buttons">
             <div class="action_btn">
-                <button id="compile" class="action_btn submit">Auto-format</button>
+                <button id="compile" class="action_btn submit">Print canonical</button>
                 <button id="url" class="action_btn cancel">Generate URL</button>
-                Line length limit: <input type="number" id="line-length" value="78" style="width: 60px;" />
                 <p id="saved"></p>
             </div>
         </div>
+        <input type="checkbox" name="parantheses" checked=checked
+            id="parentheses" /> Parentheses
+        <input type="checkbox" name="braces" checked=checked id="braces" />
+        Braces
+        <input type="checkbox" name="deprecations" checked=checked
+            id="deprecations" /> Deprecations
+        <br/><br/>
+        Line length limit: <input type= "number" id="line-length" value = "78" style="width: 60px;" />
         <div id="url-box" class="error-box"></div>
         <div id="error" class="error-box"></div>
         <pre><code id = "result" class="language-stan"></code></pre>
@@ -38,11 +46,31 @@
 
 </body>
 <script>
-    function auto_format(line_length) {
+    function canonicalizer(line_length) {
         let line_length_arg = "max-line-length=" + line_length.toString()
-        var model = stanc("test_model", $("#model").val(), ["auto-format", line_length_arg]);
+        let args = ["auto-format", line_length_arg]
+        let canonicalize_modes = ""
+        if ($("#parentheses")[0].checked) {
+            canonicalize_modes += "parentheses"
+        }
+        if ($("#braces")[0].checked) {
+            if (canonicalize_modes.length > 0) {
+                canonicalize_modes += ","
+            }
+            canonicalize_modes += "braces"
+        }
+        if ($("#deprecations")[0].checked) {
+            if (canonicalize_modes.length > 0) {
+                canonicalize_modes += ","
+            }
+            canonicalize_modes += "deprecations"
+        }
+        if (canonicalize_modes.length > 0) {
+            args.push("canonicalize="+canonicalize_modes)
+        }
+        var model = stanc("test_model",$("#model").val(), args);
 
-        if (model.errors) {
+        if(model.errors) {
             $("#error").html(model.errors[1].replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;'));
             $("#result").html("");
         } else {
@@ -50,7 +78,7 @@
             $("#error").html("");
         }
     }
-    $(document).ready(function () {
+    $(document).ready(function(){
         let model_url = GetURLParameter("model")
         let line_length = GetURLParameter("line_length")
         if (!line_length) {
@@ -58,7 +86,7 @@
         } else {
             $("#line-length").val(line_length)
         }
-        let model = "dHJhbnNmb3JtZWQgZGF0YXsKcmVhbCBtID0gMDsKZm9yKGkgaW4gMTo1KQp7Cm0gKz0gMS4xKiBpOwp9Cn0KcGFyYW1ldGVycyB7CnJlYWwKeTsgLy8gY29tbWVudAp9Cm1vZGVsIHsKeQp%2BIHN0ZF9ub3JtYWwoKTsKfQ%3D%3D"
+        let model = "cGFyYW1ldGVycyB7CiAgcmVhbCB5WzVdOwogIHJlYWwgeDsKfQptb2RlbCB7CiAgZm9yIChpIGluIDEgOiA1KQogICAgdGFyZ2V0ICs9IG5vcm1hbF9sb2coeCwgeVtpXSwgKDAuNSArIDEpKTsKfQ%3D%3D"
         if (model_url) {
             model = model_url
         }
@@ -69,18 +97,18 @@
         $("#model").focus(function () {
             $("#url-box").html("");
         })
-        $("#compile").click(function () {
+        $("#compile").click(function() {
             line_length = $("#line-length").val()
-            auto_format(line_length);
+            canonicalizer(line_length);
         });
-        auto_format(line_length);
+        canonicalizer(line_length);
 
         $("#url").click(function () {
-            let url = window.location.href.split('?')[0] + "?line_length=" + $("#line-length").val() + "&model=" + encodeURIComponent(btoa($("#model").val()))
+            let url = window.location.href.split('?')[0] + "?line_length="+ $("#line-length").val() + "&model=" + encodeURIComponent(btoa($("#model").val()))
             $("#url-box").html(url);
         });
     });
-</script>
+    </script>
 <script src="https://blissfuljs.com/bliss.shy.min.js"></script>
 <script src="prism/prism.js"></script>
 <script src="https://prismjs.com/plugins/line-numbers/prism-line-numbers.js"></script>
